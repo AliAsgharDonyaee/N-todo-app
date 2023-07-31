@@ -22,22 +22,25 @@ function Sidebarr() {
 	const [collapsed, setCollapsed] = useState(true);
 
 	return (
-		<Sidebar collapsed={collapsed} className='sidebar w-full h-full bg-white'>
-			<div className='first w-full h-full flex flex-col justify-between'>
-				<div className='second'>
+		<Sidebar
+			collapsed={collapsed}
+			className='sidebar w-full h-full bg-white dark:border-r-slate-700 dark:bg-slate-800'
+		>
+			<div className='first w-full h-full flex flex-col justify-between dark:bg-slate-800'>
+				<div className='second dark:bg-slate-800'>
 					<div className='mb-4 ml-3 w-full h-24 flex justify-start items-center'>
 						<img src={Logo} alt='logo' className='w-[60px]' />
 					</div>
-					<Menu>
+					<Menu className='dark:bg-slate-800'>
 						{Item.map(({ Icon }) => (
 							<MenuItem
 								key={id}
-								className='ml-2 flex justify-start items-center mb-2 w-full h-full hover:text-violet-700'
+								className='ml-2 flex justify-start items-center mb-2 w-full h-full hover:text-violet-700 hover:bg-transition'
 							>
 								<div className='flex justify-start items-center flex-row text-slate-600 hover:text-violet-700'>
-									<Icon className='text-2xl mr-2' />
+									<Icon className='text-2xl mr-2 dark:text-gray-300' />
 									{collapsed ? (
-										<div className='w-2 h-2 bg-slate-300 rounded-full'></div>
+										<div className='w-2 h-2 bg-slate-300 rounded-full dark:bg-slate-700'></div>
 									) : (
 										<p>Todo List</p>
 									)}
@@ -57,20 +60,20 @@ function Sidebarr() {
 						</div>
 					</Menu>
 				</div>
-				<div className='py-4 w-full h-28 flex justify-between items-center flex-col text-slate-600 hover:text-violet-700'>
+				<div className='py-4 w-full h-28 flex justify-between items-center flex-col text-slate-600 dark:text-white'>
 					<a
 						to='https://github.com/AliasgharDevF'
 						target='_blank'
 						className=' ml-14 flex justify-start items-center w-full h-auto'
 					>
-						<LuGithub className='text-2xl hover:cursor-pointer mr-1' />
+						<LuGithub className='text-2xl hover:cursor-pointer mr-1 hover:text-violet-700' />
 					</a>
 					<a
 						to='https://www.linkedin.com/in/ali-donyaee-750a51260/'
 						target='_blank'
 						className=' ml-14 flex justify-start items-center w-full h-auto'
 					>
-						<LuLinkedin className='text-2xl hover:cursor-pointer mr-1' />
+						<LuLinkedin className='text-2xl hover:cursor-pointer mr-1 hover:text-violet-700' />
 					</a>
 				</div>
 			</div>

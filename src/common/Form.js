@@ -2,8 +2,11 @@ import axios from "axios";
 import { Validation } from "../utils/Validation";
 import { errorHandler, successHandler } from "../utils/functions";
 import { Field, Form, Formik, useField } from "formik";
+import { useDispatch } from "react-redux";
+import { getAsyncTodos } from "../redux/features/thunk";
 
 function Formm({ setModal, modal }) {
+	const dispatch = useDispatch();
 	const MyTextArea = ({ label, ...props }) => {
 		// useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
 		// which we can spread on <input> and alse replace ErrorMessage entirely.
@@ -11,7 +14,7 @@ function Formm({ setModal, modal }) {
 		return (
 			<>
 				<div className='flex justify-between'>
-					<label className='text-gray-500' htmlFor={label}>
+					<label className='text-gray-500 dark:text-white' htmlFor={label}>
 						{label}
 					</label>
 					<div className='text-red-500 text-sm'>
@@ -21,7 +24,7 @@ function Formm({ setModal, modal }) {
 					</div>
 				</div>
 				<textarea
-					className='text-area px-2 py-1 transition border-2 text-slate-700 border-gray-300 rounded-md text-xl focus:outline-none focus:border-primary hover:shadow-md'
+					className='text-area px-2 py-1 dark:border-slate-600 dark:text-white dark:bg-transparent transition border-2 text-slate-700 border-gray-300 rounded-md text-xl focus:outline-none focus:border-primary hover:shadow-md dark:hover:border-primary'
 					{...field}
 					{...props}
 				/>
@@ -34,6 +37,10 @@ function Formm({ setModal, modal }) {
 			initialValues={{
 				title: "",
 				description: "",
+				like: false,
+				star: false,
+				date: new Date(),
+				completed: false,
 			}}
 			validationSchema={Validation}
 			onSubmit={(data) => {
@@ -42,6 +49,7 @@ function Formm({ setModal, modal }) {
 					.then((res) => {
 						successHandler();
 						setModal(false);
+						dispatch(getAsyncTodos());
 					})
 					.catch((err) => {
 						errorHandler(err.message);
@@ -52,7 +60,7 @@ function Formm({ setModal, modal }) {
 				<Form className='w-full h-full'>
 					<div className='mb-4 w-full h-1/6 flex justify-between flex-col'>
 						<div className='flex justify-between'>
-							<label htmlFor='title' className='text-gray-500'>
+							<label htmlFor='title' className='text-gray-500 dark:text-white'>
 								Title
 							</label>
 							<div className='text-red-500 text-sm'>
@@ -65,7 +73,7 @@ function Formm({ setModal, modal }) {
 							name='title'
 							id='title'
 							placeholder='hello'
-							className='w-full h-2/3 px-2 transition border-2 text-slate-700 border-gray-300 rounded-md text-xl focus:outline-none focus:border-primary hover:shadow-md'
+							className='w-full h-2/3 px-2 transition border-2 text-slate-700 border-gray-300 dark:border-slate-600 dark:text-white dark:bg-transparent rounded-md text-xl focus:outline-none focus:border-primary hover:shadow-md dark:hover:border-primary'
 						/>
 					</div>
 					<div className='w-full h-4/6 flex justify-between flex-col'>
@@ -80,7 +88,7 @@ function Formm({ setModal, modal }) {
 						</button>
 						<button
 							type='button'
-							className='rounded-full w-1/2 h-full border-2 border-gray-400 text-gray-400 hover:border-primary hover:text-primary transition'
+							className='rounded-full w-1/2 h-full border-2 border-gray-400 text-gray-400 hover:border-primary hover:text-primary dark:hover:text-white dark:hover:border-white transition'
 							onClick={() => setModal(!modal)}
 						>
 							cancel

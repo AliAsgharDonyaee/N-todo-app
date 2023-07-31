@@ -8,12 +8,14 @@ function Main({ layout, setLayout }) {
 				<div className='w-1/2 h-full flex justify-start items-center'>
 					<HiViewGrid
 						className={`text-2xl mr-2 ${
-							layout === "grid" ? "text-slate-800" : "text-gray-400"
+							layout === "grid" ? "text-slate-800 dark:text-white" : "text-gray-400 dark:text-slate-500"
 						} cursor-pointer `}
 						onClick={() => setLayout("grid")}
 					/>
 					<HiMenu
-						className={`text-2xl ${layout === "flex" ? "text-slate-800" : "text-gray-400"} cursor-pointer `}
+						className={`text-2xl ${
+							layout === "flex" ? "text-slate-800 dark:text-white" : "text-gray-400 dark:text-slate-500"
+						} cursor-pointer `}
 						onClick={() => setLayout("flex")}
 					/>
 				</div>

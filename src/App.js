@@ -14,7 +14,7 @@ function App() {
 		},
 	});
 	return (
-		<section className='App w-full h-auto flex'>
+		<section className='App w-full h-auto flex dark:bg-slate-800'>
 			<article className='sidebar-article w-auto h-screen fixed left-0 top-0 z-40'>
 				<Sidebarr />
 			</article>

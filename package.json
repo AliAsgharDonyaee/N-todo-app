@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@reduxjs/toolkit": "^1.9.5",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
@@ -14,7 +15,10 @@
 		"react-hot-toast": "^2.4.1",
 		"react-icons": "^4.10.1",
 		"react-pro-sidebar": "^1.1.0-alpha.1",
+		"react-redux": "^8.1.2",
 		"react-scripts": "5.0.1",
+		"react-toggle-dark-mode": "^1.1.1",
+		"redux": "^4.2.1",
 		"tailwindcss": "^3.3.3",
 		"web-vitals": "^2.1.4",
 		"yup": "^1.2.0"

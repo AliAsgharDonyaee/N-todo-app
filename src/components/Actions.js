@@ -1,8 +1,13 @@
 import { FaHeart, FaStar, FaCheck, FaTrash } from "react-icons/fa";
 import { errorHandler } from "../utils/functions";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getAsyncTodos } from "../redux/features/thunk";
 
 function Actions({ i }) {
+	// const { loading, todos, error } = useSelector((state) => state.todos);
+	const dispatch = useDispatch();
+
 	const changeHandlerLike = async (i) => {
 		await axios
 			.put(`http://localhost:4000/todos/${i.id}`, {
@@ -26,6 +31,7 @@ function Actions({ i }) {
 				completed: i.completed,
 				id: i.id,
 			})
+			.then((res) => dispatch(getAsyncTodos()))
 			.catch((err) => errorHandler(err.message));
 	};
 
@@ -39,25 +45,29 @@ function Actions({ i }) {
 				completed: !i.completed,
 				id: i.id,
 			})
+			.then((res) => dispatch(getAsyncTodos()))
 			.catch((err) => errorHandler(err.message));
 	};
 
 	const changeHandlerTrash = async (i) => {
-		await axios.delete(`http://localhost:4000/todos/${i.id}`).catch((err) => errorHandler(err.message));
+		await axios
+			.delete(`http://localhost:4000/todos/${i.id}`)
+			.then((res) => dispatch(getAsyncTodos()))
+			.catch((err) => errorHandler(err.message));
 	};
 
 	return (
 		<div className='w-full h-8 flex static'>
 			<div className='w-1/2 h-full flex justify-start items-center'>
 				<button
-					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center text-rose-500`}
+					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center text-rose-500 `}
 					onClick={(e) => changeHandlerTrash(i)}
 				>
 					<FaTrash />
 				</button>
 				<button
 					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center ${
-						i.completed ? "text-green-500" : "text-gray-300 transition active:text-green-500"
+						i.completed ? "text-green-500" : "text-gray-300 transition active:text-green-500 dark:text-slate-400"
 					}`}
 					onClick={(e) => changeHandlerCom(i)}
 				>
@@ -67,7 +77,7 @@ function Actions({ i }) {
 			<div className='w-1/2 h-full flex justify-end items-center'>
 				<button
 					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center ${
-						i.like ? "text-red-500" : "text-gray-300 transition active:text-red-500"
+						i.like ? "text-red-500" : "text-gray-300 transition active:text-red-500 dark:text-slate-400"
 					}`}
 					onClick={(e) => changeHandlerLike(i)}
 				>
@@ -75,7 +85,7 @@ function Actions({ i }) {
 				</button>
 				<button
 					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center ${
-						i.star ? "text-orange-500" : "text-gray-300 transition active:text-orange-500"
+						i.star ? "text-orange-500" : "text-gray-300 transition active:text-orange-500 dark:text-slate-400"
 					}`}
 					onClick={(e) => changeHandlerStar(i)}
 				>
