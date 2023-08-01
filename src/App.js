@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import HomePage from "./page";
 
 function App() {
-	toast("This app is not responsive ", {
+	toast("This app is not responsive\nplease run vpn ", {
 		icon: "⚡",
 		style: {
 			borderRadius: "100px",

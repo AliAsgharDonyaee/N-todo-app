@@ -1,16 +1,16 @@
+import React from "react";
 import { FaHeart, FaStar, FaCheck, FaTrash } from "react-icons/fa";
 import { errorHandler } from "../utils/functions";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAsyncTodos } from "../redux/features/thunk";
 
 function Actions({ i }) {
-	// const { loading, todos, error } = useSelector((state) => state.todos);
 	const dispatch = useDispatch();
 
 	const changeHandlerLike = async (i) => {
 		await axios
-			.put(`http://localhost:4000/todos/${i.id}`, {
+			.put(`https://z-apis.vercel.app/api/todos/${i.id}`, {
 				title: i.title,
 				description: i.description,
 				like: !i.like,
@@ -18,12 +18,13 @@ function Actions({ i }) {
 				completed: i.completed,
 				id: i.id,
 			})
+			.then((res) => dispatch(getAsyncTodos()))
 			.catch((err) => errorHandler(err.message));
 	};
 
 	const changeHandlerStar = async (i) => {
 		await axios
-			.put(`http://localhost:4000/todos/${i.id}`, {
+			.put(`https://z-apis.vercel.app/api/todos/${i.id}`, {
 				title: i.title,
 				description: i.description,
 				like: i.like,
@@ -37,7 +38,7 @@ function Actions({ i }) {
 
 	const changeHandlerCom = async (i) => {
 		await axios
-			.put(`http://localhost:4000/todos/${i.id}`, {
+			.put(`https://z-apis.vercel.app/api/todos/${i.id}`, {
 				title: i.title,
 				description: i.description,
 				like: i.like,
@@ -51,7 +52,7 @@ function Actions({ i }) {
 
 	const changeHandlerTrash = async (i) => {
 		await axios
-			.delete(`http://localhost:4000/todos/${i.id}`)
+			.delete(`https://z-apis.vercel.app/api/todos/${i.id}`)
 			.then((res) => dispatch(getAsyncTodos()))
 			.catch((err) => errorHandler(err.message));
 	};
@@ -67,7 +68,9 @@ function Actions({ i }) {
 				</button>
 				<button
 					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center ${
-						i.completed ? "text-green-500" : "text-gray-300 transition active:text-green-500 dark:text-slate-400"
+						i.completed
+							? "text-green-500"
+							: "text-gray-300 transition active:text-green-500 dark:text-slate-400"
 					}`}
 					onClick={(e) => changeHandlerCom(i)}
 				>
@@ -85,7 +88,9 @@ function Actions({ i }) {
 				</button>
 				<button
 					className={`w-8 h-8 bg-rd-500 rounded-full flex justify-center items-center ${
-						i.star ? "text-orange-500" : "text-gray-300 transition active:text-orange-500 dark:text-slate-400"
+						i.star
+							? "text-orange-500"
+							: "text-gray-300 transition active:text-orange-500 dark:text-slate-400"
 					}`}
 					onClick={(e) => changeHandlerStar(i)}
 				>
@@ -96,4 +101,4 @@ function Actions({ i }) {
 	);
 }
 
-export default Actions;
+export default React.memo(Actions);

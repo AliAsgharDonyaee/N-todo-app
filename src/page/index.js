@@ -1,26 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Main from "../common/Main";
 import Todos from "../common/Todos";
 import Information from "../common/Information";
-import { errorHandler } from "../utils/functions";
-import { useDispatch, useSelector } from "react-redux";
-import { getAsyncTodos } from "../redux/features/thunk";
 
 function HomePage() {
 	const [layout, setLayout] = useState("grid");
-	const dispatch = useDispatch();
-
-	const getDatas = async () => {
-		try {
-			return dispatch(getAsyncTodos());
-		} catch (err) {
-			return errorHandler(err.message);
-		}
-	};
-
-	useEffect(() => {
-		getDatas();
-	}, []);
 
 	return (
 		<section className='w-full h-[830px] flex'>

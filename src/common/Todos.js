@@ -1,29 +1,48 @@
+import React from "react";
 import Actions from "../components/Actions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { errorHandler } from "../utils/functions";
+import { getAsyncTodos } from "../redux/features/thunk";
+import { useEffect } from "react";
 
 function Todos({ layout }) {
 	const style = "bg-gray-200 dark:bg-slate-500 rounded-full animate-pulse";
-	const { todos, sort, loading, error } = useSelector((state) => state.todos);
 
-	const sortingF = () => {
-		if (sort === "all") {
-			return todos;
-		} else {
-			const d = [...todos].sort((a, b) =>
-				sort === "latest"
-					? b.id - a.id
-					: sort === "likes"
-					? b.like - a.like
-					: sort === "stars"
-					? b.star - a.star
-					: sort === "completed"
-					? b.completed - a.completed
-					: null,
-			);
-			return d;
+	const { todos, sort, loading, error } = useSelector((state) => state.todos);
+	const dispatch = useDispatch();
+
+	const getDatas = async () => {
+		try {
+			return dispatch(getAsyncTodos());
+		} catch (err) {
+			return errorHandler(err.message);
 		}
 	};
+
+	useEffect(() => {
+		getDatas();
+	}, []);
+
+	function sortingF() {
+		if (todos) {
+			if (sort === "all") {
+				return todos;
+			} else {
+				const d = [...todos].sort((a, b) =>
+					sort === "latest"
+						? b.id - a.id
+						: sort === "likes"
+						? b.like - a.like
+						: sort === "stars"
+						? b.star - a.star
+						: sort === "completed"
+						? b.completed - a.completed
+						: null,
+				);
+				return d;
+			}
+		}
+	}
 
 	if (error) errorHandler("can't data\nplease run json-server");
 
@@ -51,7 +70,7 @@ function Todos({ layout }) {
 						<div className={`w-8 h-8  ${style}`}></div>
 					</div>
 				</div>
-			) : !sortingF() ? (
+			) : sortingF()?.length == 0 ? (
 				<p className='text-slate-500 dark:text-white text-sm'>you no have todo ;(</p>
 			) : (
 				sortingF()?.map((i) => (
@@ -75,4 +94,4 @@ function Todos({ layout }) {
 	);
 }
 
-export default Todos;
+export default React.memo(Todos);

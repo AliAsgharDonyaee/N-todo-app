@@ -3,13 +3,11 @@ import { Validation } from "../utils/Validation";
 import { errorHandler, successHandler } from "../utils/functions";
 import { Field, Form, Formik, useField } from "formik";
 import { useDispatch } from "react-redux";
-import { getAsyncTodos } from "../redux/features/thunk";
 
 function Formm({ setModal, modal }) {
 	const dispatch = useDispatch();
+
 	const MyTextArea = ({ label, ...props }) => {
-		// useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-		// which we can spread on <input> and alse replace ErrorMessage entirely.
 		const [field, meta] = useField(props);
 		return (
 			<>
@@ -45,13 +43,17 @@ function Formm({ setModal, modal }) {
 			validationSchema={Validation}
 			onSubmit={(data) => {
 				axios
-					.post("http://localhost:4000/todos", data)
+					.post("https://z-apis.vercel.app/api/todos", data)
 					.then((res) => {
+						console.log(res.data);
+						window.location.reload();
+						// dispatch(getAsyncTodos());
 						successHandler();
 						setModal(false);
-						dispatch(getAsyncTodos());
 					})
 					.catch((err) => {
+						setModal(false);
+						window.location.reload();
 						errorHandler(err.message);
 					});
 			}}
